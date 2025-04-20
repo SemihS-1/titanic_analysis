@@ -74,6 +74,32 @@ prediction = rf_model.predict(user_input_scaled)
 
 print(f"\nTahmin: {'✅ Hayatta Kaldı' if prediction == 1 else '❌ Hayatta Kalamadı'}")
 
+#KNN ile analiz etme
+
+# 1. KNN Modeli Oluştur
+knn_model = KNeighborsClassifier(n_neighbors=5)
+
+# 2. Eğit
+knn_model.fit(X_train, y_train)
+
+# 3. Tahmin
+y_pred_knn = knn_model.predict(X_test)
+
+# 4. Değerlendirme
+print("\nKNN SONUÇLARI")
+print("Accuracy (KNN):", accuracy_score(y_test, y_pred_knn))
+print("\nClassification Report (KNN):\n", classification_report(y_test, y_pred_knn))
+print("\nConfusion Matrix (KNN):\n", confusion_matrix(y_test, y_pred_knn))
+
+# 5. Karışıklık Matrisi Görselleştir
+cm_knn = confusion_matrix(y_test, y_pred_knn)
+disp_knn = ConfusionMatrixDisplay(confusion_matrix=cm_knn, display_labels=['Not Survived', 'Survived'])
+
+fig, ax = plt.subplots(figsize=(8, 6))
+disp_knn.plot(cmap=plt.cm.Oranges, ax=ax, colorbar=False)
+plt.title("KNN Confusion Matrix")
+plt.grid(False)
+plt.show()
 
 
 
